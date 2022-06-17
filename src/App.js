@@ -51,7 +51,6 @@ class App extends Component {
       <>
         <section className="container-form">
           <h1>Characters</h1>
-
           <form onSubmit={this.handleSubmit}>
             <input
               onChange={this.handleChange}
