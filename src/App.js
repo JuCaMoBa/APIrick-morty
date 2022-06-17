@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-const axios = require("axios");
+import axios from "axios";
+import "./App.css";
 
 class App extends Component {
   constructor() {
@@ -48,18 +49,19 @@ class App extends Component {
     const { characters } = this.state;
     return (
       <>
-        <section>
-          <h1>characters</h1>
+        <section className="container-form">
+          <h1>Characters</h1>
+
           <form onSubmit={this.handleSubmit}>
             <input
               onChange={this.handleChange}
               type="text"
-              placeholder="find a character"
+              placeholder="Search for characters"
             />
             <button type="submit">Search</button>
           </form>
         </section>
-        <section>
+        <section className="container-character">
           {characters?.data?.results.map((character, index) => (
             <div key={index}>
               <img src={character.image} alt={character.name} />
