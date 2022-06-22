@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
-import Search from "./components/search";
+import Search from "./components/Search";
 import CardList from "./components/CardList";
 
 class App extends Component {
