@@ -1,6 +1,8 @@
 import React, { Component } from "react";
 import axios from "axios";
 import "./App.css";
+import Search from "./components/search";
+import CardList from "./components/CardList";
 
 class App extends Component {
   constructor() {
@@ -50,25 +52,13 @@ class App extends Component {
     return (
       <>
         <section className="container-form">
-          <h1>Characters</h1>
-          <form onSubmit={this.handleSubmit}>
-            <input
-              onChange={this.handleChange}
-              type="text"
-              placeholder="Search for characters"
-            />
-            <button type="submit">Search</button>
-          </form>
+          <Search
+            handleChange={this.handleChange}
+            handleSubmit={this.handleSubmit}
+          />
         </section>
         <section className="container-character">
-          {characters?.data?.results.map((character, index) => (
-            <div key={index}>
-              <img src={character.image} alt={character.name} />
-              <h3>{character.name}</h3>
-              <p>Last Location</p>
-              <h5>{character.location.name}</h5>
-            </div>
-          ))}
+          <CardList characters={characters} />
         </section>
       </>
     );
