@@ -9,7 +9,9 @@ class App extends Component {
     super();
     this.state = {
       characters: {},
+      singleCharacter: {},
       filterCharacter: "",
+      isVisible: false,
     };
   }
 
@@ -21,6 +23,17 @@ class App extends Component {
     try {
       const response = await axios("https://rickandmortyapi.com/api/character");
       this.setState({ characters: response });
+    } catch (error) {
+      new Error(error);
+    }
+  };
+
+  fetchDataSingleCharacters = async (id) => {
+    try {
+      const response = await axios(
+        `https://rickandmortyapi.com/api/character/${id}`
+      );
+      this.setState({ singleCharacter: response });
     } catch (error) {
       new Error(error);
     }
@@ -42,13 +55,18 @@ class App extends Component {
     }
   };
 
+  handleClick = (id) => {
+    this.fetchDataSingleCharacters(id);
+    this.setState({ isVisible: true });
+  };
+
   handleSubmit = (event) => {
     event.preventDefault();
     this.fetchDataFilterCharacter();
   };
 
   render() {
-    const { characters } = this.state;
+    const { characters, isVisible, singleCharacter } = this.state;
     return (
       <>
         <section className="container-form">
@@ -58,7 +76,15 @@ class App extends Component {
           />
         </section>
         <section className="container-character">
-          <CardList characters={characters} />
+          {isVisible ? (
+            <CardList isVisible={isVisible} singleCharacter={singleCharacter} />
+          ) : (
+            <CardList
+              handleClick={this.handleClick}
+              isVisible={isVisible}
+              characters={characters}
+            />
+          )}
         </section>
       </>
     );

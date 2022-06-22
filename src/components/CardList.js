@@ -5,9 +5,22 @@ class CardList extends Component {
   render() {
     return (
       <>
-        {this.props.characters?.data?.results.map((character, index) => (
-          <Card key={index} character={character} index={index} />
-        ))}
+        {this.props.isVisible ? (
+          <Card
+            isVisible={this.props.isVisible}
+            singleCharacter={this.props.singleCharacter.data}
+          />
+        ) : (
+          this.props.characters?.data?.results.map((character, index) => (
+            <Card
+              isVisible={this.props.isVisible}
+              handleClick={this.props.handleClick}
+              key={index}
+              character={character}
+              index={index}
+            />
+          ))
+        )}
       </>
     );
   }
