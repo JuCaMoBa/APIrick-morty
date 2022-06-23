@@ -1,43 +1,48 @@
 import React, { Component } from "react";
-import { useParams } from "react-router-dom";
+import { withRouter } from "react-router";
 import axios from "axios";
 
 class SingleCharacter extends Component {
   constructor() {
     super();
     this.state = {
-      singleCharacter: {},
+      singleCharacters: {},
     };
   }
 
   componentDidMount() {
-    this.fetchDataSingleCharacters();
+    const { id } = this.props.match.params;
+    this.fetchDataSingleCharacters(id);
   }
 
-  fetchDataSingleCharacters = async () => {
-    let { id } = useParams();
+  fetchDataSingleCharacters = async (id) => {
     try {
       const response = await axios(
         `https://rickandmortyapi.com/api/character/${id}`
       );
-      this.setState({ singleCharacter: response });
+      this.setState({ singleCharacters: response });
     } catch (error) {
       new Error(error);
     }
   };
 
   render() {
-    const { singleCharacter } = this.state;
-
+    const { singleCharacters } = this.state;
+    console.log("Hola Mundo");
     return (
-      <div>
-        <img src={singleCharacter?.image} alt={singleCharacter?.name} />
-        <h3>{singleCharacter?.name}</h3>
-        <p>Last Location</p>
-        <h5>{singleCharacter?.location?.name}</h5>
-      </div>
+      <section className="container-singleCharacter">
+        <div>
+          <img
+            src={singleCharacters?.data?.image}
+            alt={singleCharacters?.data?.name}
+          />
+          <h3>{singleCharacters?.data?.name}</h3>
+          <p>Last Location</p>
+          <h5>{singleCharacters?.data?.location?.name}</h5>
+        </div>
+      </section>
     );
   }
 }
 
-export default SingleCharacter;
+export default withRouter(SingleCharacter);

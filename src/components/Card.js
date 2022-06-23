@@ -5,7 +5,7 @@ class Card extends Component {
   render() {
     return (
       <Link to={`character/${this.props.character?.id}`}>
-        <div key={this.props.index}>
+        <div>
           <img
             src={this.props.character?.image}
             alt={this.props.character?.name}

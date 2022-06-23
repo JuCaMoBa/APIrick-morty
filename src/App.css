@@ -48,3 +48,23 @@ p,
 h5 {
   padding: 8px;
 }
+
+.container-singleCharacter div {
+  border: 4px solid #3e92e3;
+  border-radius: 10px;
+  margin: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  max-width: fit-content;
+  align-items: flex-start;
+  margin: auto;
+  margin-top: 50px;
+}
+
+.container-singleCharacter h3,
+p,
+h5 {
+  padding: 8px;
+}
