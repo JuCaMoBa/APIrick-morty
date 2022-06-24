@@ -5,17 +5,43 @@ import Search from "./components/Search";
 import CardList from "./components/CardList";
 
 class App extends Component {
+  myref;
+  intersectionObserver;
   constructor() {
     super();
+    this.myref = React.createRef();
     this.state = {
       characters: {},
       singleCharacter: {},
       filterCharacter: "",
+      nextPage: 2,
     };
-  }
 
+    this.intersectionObserver = new IntersectionObserver(
+      (entries) => {
+        console.log(entries);
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const { nextPage } = this.state;
+            console.log("final");
+            this.setState({ nextPage: nextPage + 1 });
+            this.fetchDataMoreCharacters();
+          }
+        });
+      },
+      { threshold: 1, rootMargin: "1px" }
+    );
+  }
   componentDidMount() {
     this.fetchDataAllCharacters();
+  }
+
+  componentDidUpdate() {
+    this.intersectionObserver.observe(this.myref.current);
+  }
+
+  componentWillUnmount() {
+    this.intersectionObserver.disconnect();
   }
 
   fetchDataAllCharacters = async () => {
@@ -27,8 +53,16 @@ class App extends Component {
     }
   };
 
-  handleChange = (event) => {
-    this.setState({ filterCharacter: event.target.value });
+  fetchDataMoreCharacters = async () => {
+    const { nextPage } = this.state;
+    try {
+      const response = await axios(
+        `https://rickandmortyapi.com/api/character/?page=${nextPage}`
+      );
+      this.setState({ characters: response });
+    } catch (error) {
+      new Error(error);
+    }
   };
 
   fetchDataFilterCharacter = async () => {
@@ -41,6 +75,10 @@ class App extends Component {
     } catch (error) {
       new Error(error);
     }
+  };
+
+  handleChange = (event) => {
+    this.setState({ filterCharacter: event.target.value });
   };
 
   handleSubmit = (event) => {
@@ -61,6 +99,7 @@ class App extends Component {
         <section className="container-character">
           <CardList characters={characters} />
         </section>
+        <div ref={this.myref} />
       </>
     );
   }
